@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, make_response, render_template, jsonify
 import requests
 import re
 import os
@@ -45,13 +45,14 @@ def index(ip=None):
        
     return render_template('error.html')
     
-  
-
+@app.route('/status',strict_slashes=False)
+def status():
+    return make_response(jsonify(message = "Health check success!!"),200)    
 
 
 if __name__ == "__main__":
     
-  api_server = os.getenv("API_SERVER",None)
+  api_server = os.getenv("API_SERVER",None) 
   api_server_port = os.getenv("API_SERVER_PORT",None)
   api_path = os.getenv("API_PATH",None)
   app_port = os.getenv('APP_PORT',"8080") 
