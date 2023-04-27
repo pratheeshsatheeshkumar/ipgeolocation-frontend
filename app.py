@@ -19,9 +19,10 @@ def index(ip=None):
     
     if valid_ip:
         
-      api_url = "http://{}:{}/{}/{}".format(api_server,api_server_port,api_path.strip('/'),ip) 
+      api_url = "http://{}:{}/{}/{}".format("api.pratheesh.local","80","ip",ip) 
       response = requests.get(url=api_url)
       geodata = response.json()
+      container_name = geodata['container_name']
       continent_name = geodata['continent_name']
       continent_code = geodata['continent_code']
       country_name = geodata['country_name']
@@ -29,7 +30,7 @@ def index(ip=None):
       cached = geodata['cached']
     
   
-      return render_template('index.html',
+      return render_template('index.html',container_name=container_name,
                          continent_name=continent_name,
                          continent_code=continent_code,
                          country_name=country_name,
@@ -52,8 +53,8 @@ def status():
 
 if __name__ == "__main__":
     
-  api_server = os.getenv("API_SERVER",None) 
-  api_server_port = os.getenv("API_SERVER_PORT",None)
+  api_server = "api.pratheesh.local" 
+  api_server_port = "80" 
   api_path = os.getenv("API_PATH",None)
   app_port = os.getenv('APP_PORT',"8080") 
   app.run(port=app_port,host="0.0.0.0",debug=True)
